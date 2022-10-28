@@ -2,8 +2,20 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	_ "image/png"
 	"log"
 )
+
+var img *ebiten.Image
+
+func init() {
+	var err error
+	img, _, err = ebitenutil.NewImageFromFile("assets/overworld/player/male/stationary_south.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 // Game implements ebiten.Game interface.
 type Game struct{}
@@ -19,6 +31,7 @@ func (g *Game) Update() error {
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
 	// Write your game's rendering.
+	screen.DrawImage(img, nil)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
@@ -31,7 +44,7 @@ func main() {
 	game := &Game{}
 	// Specify the window size as you like. Here, a doubled size is specified.
 	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("Your game's title")
+	ebiten.SetWindowTitle("Pokemon Rage Red")
 	// Call ebiten.RunGame to start your game loop.
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
